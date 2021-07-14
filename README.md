@@ -1,1 +1,4 @@
 # Deamonset
+Notice that the default behavior of the Nginx image is to store its logs to the standard output to be picked by Dockers’ log collector. Docker stores those logs under /var/lib/docker/containers/container-ID/container-ID-json.log on the host machine. With more than one container (from different Pods) running on the same host and using the same location for storing their logs, you can use a DaemonSet to deploy a log-collector container like Filebeat or Logstash to collect those logs and send them to a log-aggregator like ElasticSearch. You’ll need to mount /var/lib/docker/containers as a hostPath volume to the DaemonSet Pod to give the log-collector container access to the logs.
+
+The sidecar container runs with the nginx container on the same Pod. This enables the sidecar container to access the same volume as the web server. In the above example, we used the cat command to simulate sending the log data to a log aggregator every thirty seconds.
